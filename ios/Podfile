@@ -36,7 +36,12 @@ target 'Samba' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'ReactNativeNavigation', :podspec => '../node_modules/react-native-navigation/ReactNativeNavigation.podspec'
-  
+
+  pod 'react-native-torch', :path => '../node_modules/react-native-torch'
+
+  pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'
+  pod 'react-native-geolocation', path: '../node_modules/@react-native-community/geolocation'
+
   target 'SambaTests' do
     inherit! :search_paths
     # Pods for testing

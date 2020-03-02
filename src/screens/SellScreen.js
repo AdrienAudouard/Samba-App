@@ -3,6 +3,7 @@ import {ActivityIndicator, Image, SafeAreaView, StyleSheet, View} from 'react-na
 import {Button, Text} from 'react-native-elements';
 import DeviceProvider from '../providers/DeviceProvider';
 import {goScreenTest} from '../navigation/Navigation';
+import DeviceTesterProvider from '../providers/DeviceTesterProvider';
 
 class SellScreen extends React.Component {
     constructor() {
@@ -47,7 +48,7 @@ class SellScreen extends React.Component {
                     <Button
                         buttonStyle={styles.myDeviceButton}
                         title="That's my device !"
-                        onPress={() => goScreenTest()}
+                        onPress={() => DeviceTesterProvider.goToNextScreen()}
                     />
                     <Button
                         buttonStyle={styles.notMyDeviceButton}

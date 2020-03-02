@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
-import ColorProvider from '../providers/ColorProvider';
-import ScreenTester from '../widgets/ScreenTester';
+import ScreenTester from '../../widgets/ScreenTester';
+import DeviceTesterProvider from '../../providers/DeviceTesterProvider';
 
 class ScreenTestScreen extends React.Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class ScreenTestScreen extends React.Component {
     }
 
     makeUpperPartValid() {
-
+        DeviceTesterProvider.goToNextScreen([]);
     }
 
     render() {

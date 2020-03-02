@@ -1,6 +1,11 @@
 package com.samba;
 
+import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationActivity;
+import java.util.Arrays;
+import java.util.List;
+
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 
 public class MainActivity extends NavigationActivity {
 
@@ -12,4 +17,10 @@ public class MainActivity extends NavigationActivity {
   protected String getMainComponentName() {
     return "Samba";
   }*/
+
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+                new RNDeviceInfo()
+        );
+    }
 }

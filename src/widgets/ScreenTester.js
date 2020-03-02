@@ -1,4 +1,4 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import SquareTester from './SquareTester';
 import PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ class ScreenTester extends React.Component{
     buildColmuns() {
         const rows = [];
         for (let i = 0; i < GRID_SIZE; i++) {
-            rows.push(<View style={styles.row}>{this.buildRow()}</View>)
+            rows.push(<View key={i} style={styles.row}>{this.buildRow()}</View>)
         }
 
         return rows;
@@ -25,7 +25,7 @@ class ScreenTester extends React.Component{
         const square = [];
 
         for (let i = 0; i < GRID_SIZE; i++) {
-            square.push(<SquareTester onValidate={() => this.onValidateSquare()} />)
+            square.push(<SquareTester key={i} onValidate={() => this.onValidateSquare()} />)
         }
 
         return square;

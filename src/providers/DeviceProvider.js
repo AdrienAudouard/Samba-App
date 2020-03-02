@@ -1,7 +1,15 @@
 import DeviceInfo from 'react-native-device-info';
 import ImageProvider from './ImageProvider';
+import SystemSetting from 'react-native-system-setting'
+import {Platform, Vibration} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 
 class DeviceProvider {
+    constructor() {
+        this.wifiListener = null;
+        this.bluetoothListener = null;
+    }
+
     getBrand() {
         return DeviceInfo.getBrand();
     }
@@ -33,6 +41,77 @@ class DeviceProvider {
         const os = DeviceInfo.getSystemVersion();
 
         return `${osName} ${os}`;
+    }
+
+    isIOSDevice() {
+        return Platform.OS === 'ios';
+    }
+
+    addWifiStateChangeListener(listener) {
+        this.wifiListener = SystemSetting.addWifiListener(listener);
+
+        this.isWifiOn().then((isOn) => {
+            listener(isOn);
+        });
+    }
+
+    addBluetoothStateChangeListener(listener) {
+        this.bluetoothListener = SystemSetting.addBluetoothListener(listener);
+
+        this.isBluetoothOn().then((isOn) => {
+            listener(isOn);
+        })
+    }
+
+    removeWifiStateChangeListener() {
+/*        if (this.wifiListener) {
+            SystemSetting.removeListener(this.wifiListener);
+        }*/
+    }
+
+    removeBluetoothStateChangeListener() {
+/*        if (this.bluetoothListener) {
+            SystemSetting.removeListener(this.bluetoothListener);
+        }*/
+    }
+
+    turnOnWifi() {
+        this.isWifiOn().then((isOn) => {
+            if (!isOn) {
+                SystemSetting.switchWifi();
+            }
+        });
+    }
+
+    turnOnBluetooth() {
+        this.isBluetoothOn().then((isOn) => {
+            if (!isOn) {
+                SystemSetting.switchBluetooth();
+            }
+        });
+    }
+
+    getLocation(callback, err) {
+        Geolocation.getCurrentPosition(callback, err);
+    }
+
+    unsubscribeLocation() {
+        Geolocation.stopObserving();
+    }
+
+    makeAVibration() {
+        // Vibration patterns are different depending on the platform
+        // https://reactnative.dev/docs/vibration
+        const PATTERN = this.isIOSDevice() ? [0, 500, 500, 500, 500] : [0, 500, 500, 500, 500, 500];
+        Vibration.vibrate(PATTERN);
+    }
+
+    isWifiOn() {
+        return SystemSetting.isWifiEnabled();
+    }
+
+    isBluetoothOn() {
+        return SystemSetting.isBluetoothEnabled();
     }
 }
 

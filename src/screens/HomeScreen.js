@@ -9,7 +9,7 @@ class HomeScreen extends React.Component {
         index: 0,
         routes: [
             { key: 'sell', title: 'Sell', icon: 'star' },
-            { key: 'profile', title: 'Profile', icon: 'meho'  },
+            { key: 'profile', title: 'Profile', icon: 'account-group'  },
         ],
     };
 
