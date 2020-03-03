@@ -16,7 +16,6 @@ class SellScreen extends React.Component {
 
     componentDidMount(): void {
         DeviceProvider.getDeviceImage().then((url) => {
-            console.log(url);
             this.setState({
                 imageUri: url
             });

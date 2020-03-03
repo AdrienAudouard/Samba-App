@@ -8,6 +8,18 @@ class DeviceProvider {
     constructor() {
         this.wifiListener = null;
         this.bluetoothListener = null;
+        this.volumeTurnUpListener = () => {};
+        this.volumeTurnDownListener = () => {};
+        this.currentVolume = SystemSetting.getVolume().value;
+
+        this.volumeListener = SystemSetting.addVolumeListener((v) => {
+            if (v.value > this.currentVolume) {
+                this.volumeTurnUpListener();
+            } else {
+                this.volumeTurnDownListener();
+            }
+            this.currentVolume = v.value;
+        });
     }
 
     getBrand() {
@@ -63,6 +75,14 @@ class DeviceProvider {
         })
     }
 
+    addVolumeTurnUpListener(listener) {
+        this.volumeTurnUpListener = listener;
+    }
+
+    addVolumeTurnDownListener(listener) {
+        this.volumeTurnDownListener = listener;
+    }
+
     removeWifiStateChangeListener() {
 /*        if (this.wifiListener) {
             SystemSetting.removeListener(this.wifiListener);
@@ -112,6 +132,10 @@ class DeviceProvider {
 
     isBluetoothOn() {
         return SystemSetting.isBluetoothEnabled();
+    }
+
+    unsubscribeVolumeListener() {
+        SystemSetting.removeVolumeListener(this.volumeListener);
     }
 }
 

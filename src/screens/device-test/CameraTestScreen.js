@@ -3,7 +3,7 @@ import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import DeviceProvider from '../../providers/DeviceProvider';
 import { RNCamera } from 'react-native-camera';
-import CameraModal from '../../widgets/CameraModal';
+import CameraModal from '../../widgets/modals/CameraModal';
 import DeviceTesterProvider from '../../providers/DeviceTesterProvider';
 
 class CameraTestScreen extends React.Component {

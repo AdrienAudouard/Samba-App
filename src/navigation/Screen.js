@@ -10,6 +10,10 @@ import BluetoothTestScreen from '../screens/device-test/BluetoothTestScreen';
 import CameraTestScreen from '../screens/device-test/CameraTestScreen';
 import VibrationTestScreen from '../screens/device-test/VibrationTestScreen';
 import GpsTestScreen from '../screens/device-test/GpsTestScreen';
+import ButtonTestScreen from '../screens/device-test/ButtonTestScreen';
+import FinalTestScreen from '../screens/device-test/FinalTestScreen';
+import QualityTestScreen from '../screens/device-test/QualityTestScreen';
+import CreateSellScreen from '../screens/CreateSellScreen';
 
 export function registerScreens() {
     Navigation.registerComponent('Login', () => LoginScreen);
@@ -23,4 +27,8 @@ export function registerScreens() {
     Navigation.registerComponent('CameraTest', () => CameraTestScreen);
     Navigation.registerComponent('VibratorTest', () => VibrationTestScreen);
     Navigation.registerComponent('GpsTest', () => GpsTestScreen);
+    Navigation.registerComponent('ButtonTest', () => ButtonTestScreen);
+    Navigation.registerComponent('FinalTest', () => FinalTestScreen);
+    Navigation.registerComponent('QualityTest', () => QualityTestScreen);
+    Navigation.registerComponent('CreateSell', () => CreateSellScreen);
 }

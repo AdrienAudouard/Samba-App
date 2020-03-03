@@ -4,6 +4,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- isWifiEnabled() -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!-- isBluetoothEnabled() -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <!-- * switchWifiSilence() -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!-- * switchBluetoothSilence() -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
       android:name=".MainApplication"

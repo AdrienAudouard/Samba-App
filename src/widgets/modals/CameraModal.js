@@ -4,7 +4,7 @@ import { Text} from 'react-native-elements';
 import { RNCamera } from 'react-native-camera';
 import { Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
-import YesNoButtons from './YesNoButtons';
+import YesNoButtons from '../YesNoButtons';
 
 class CameraModal extends React.Component {
     constructor(props) {
@@ -47,7 +47,7 @@ class CameraModal extends React.Component {
                                 onPress={() => this.takePicture()}
                             >
                                 <Image
-                                    source={require('../../assets/rec.png')}
+                                    source={require('../../../assets/rec.png')}
                                     style={{width: 85, height: 85}}
                                 />
                             </TouchableOpacity>

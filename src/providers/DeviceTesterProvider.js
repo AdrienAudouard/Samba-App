@@ -1,11 +1,12 @@
 import {
-    goBluetoothTest,
-    goCameraTest, goGpsTest,
-    goMultiTouch,
+    goBluetoothTest, goButtonTest,
+    goCameraTest, goDeviceAspectScreen, goFinalTest, goGpsTest,
+    goMultiTouch, goQualityTestScreen, goScreenAspectScreen,
     goScreenTest,
     goTorchTest, goVibrationTest,
     goWifiTest,
 } from '../navigation/Navigation';
+import FEATURES_LIST from '../models/features';
 
 class DeviceTesterProvider {
     constructor() {
@@ -15,37 +16,94 @@ class DeviceTesterProvider {
     reset() {
         this.actual = 0;
 
-        this.navigationList= [
-            { next: goScreenTest, feature: 'screen', default: []},
-            { next: goMultiTouch, feature: 'multitouch', default: false},
-            { next: goTorchTest, feature: 'torch', default: false},
-            { next: goWifiTest, feature: 'wifi', default: false},
-            { next: goBluetoothTest, feature: 'bluetooth', default: false},
-            { next: goCameraTest, feature: 'camera', default: {front: false, back: false}},
-            { next: goVibrationTest, feature: 'vibrator', default: false},
-            { next: goGpsTest, feature: 'gps', default: false}
-        ];
+        this.navigationList = FEATURES_LIST;
 
         this.deviceState = {};
 
         this.navigationList.forEach(el => {
-           this.deviceState[el.feature] = el.default;
+           this.deviceState[el.name] = {result: el.default, expected: el.expected};
         });
     }
+
+    getTestCount() {
+        let count = 0;
+        Object.keys(this.deviceState).forEach((key) => {
+            const feature = this.deviceState[key];
+
+            if ((typeof feature.result) === 'boolean'  || (typeof feature.result) === 'number') {
+                count += 1;
+            } else if (!Array.isArray(feature.result)) {
+                Object.keys(feature.result).forEach((res) => {
+                    count += 1;
+                });
+            } else {
+                count += 1;
+            }
+        });
+
+        return count;
+    }
+
+    getNumberOfTestsPassed() {
+        let count = 0;
+
+        Object.keys(this.deviceState).forEach((key) => {
+            const feature = this.deviceState[key];
+
+            if ((typeof feature.result) === 'boolean' || (typeof feature.result) === 'number') {
+                if (feature.result === feature.expected) {
+                    count += 1;
+                }
+            } else if (!Array.isArray(feature.result)) {
+                Object.keys(feature.result).forEach((res) => {
+                    if (feature.result[res] === feature.expected[res]) {
+                        count += 1;
+                    }
+                });
+            }
+        });
+
+        return count;
+    }
+
+    getResultsWithLabels() {
+        const results = [];
+
+        Object.keys(this.deviceState).forEach((key) => {
+            const feature = this.deviceState[key];
+            const featureDatas = FEATURES_LIST.find((el) => el.name === key);
+
+            if ((typeof feature.result) === 'boolean' || (typeof feature.result) === 'number') {
+                results.push({label: featureDatas.label, result: feature.result === feature.expected})
+            } else if (!Array.isArray(feature.result)) {
+                Object.keys(feature.result).forEach((res) => {
+                    results.push({label: featureDatas.labels[res], result: feature.result[res] === feature.expected[res]})
+                });
+            } else {
+                results.push({label: featureDatas.label, result: feature.result === feature.expected})
+            }
+        });
+
+        return results;
+
+    }
+
 
     goToNextScreen(result) {
         const nextNavigation = this.navigationList[this.actual];
 
         if (this.actual > 0) {
             const actualNavigation = this.navigationList[this.actual - 1];
-            this.deviceState[actualNavigation.feature] = result;
-
-            console.log(this.deviceState);
+            this.deviceState[actualNavigation.name] = {result, expected: actualNavigation.expected};
         }
 
-        nextNavigation.next();
+        if (nextNavigation) {
+            nextNavigation.screen();
 
-        this.actual += 1;
+            this.actual += 1;
+        } else {
+            goFinalTest();
+        }
     }
 }
 
