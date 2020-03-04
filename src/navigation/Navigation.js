@@ -16,7 +16,7 @@ export const goFinalTest = () => Navigation.setRoot(returnNavigationObject('Fina
 export const goQualityTestScreen = () => Navigation.setRoot(returnNavigationObject('QualityTest'));
 export const goScreenAspectScreen = () => Navigation.setRoot(returnScreenAspectNavigationObject('QualityTest'));
 export const goDeviceAspectScreen = () => Navigation.setRoot(returnDeviceAspectNavigationObject('QualityTest'));
-export const goCreateSell = () => Navigation.setRoot(returnNavigationObject('CreateSell'));
+export const goCreateSell = (price = 600) => Navigation.setRoot(returnNavigationObject('CreateSell', { price }));
 
 const returnDeviceAspectNavigationObject = screen => ({
     root: {
@@ -48,7 +48,7 @@ const returnDeviceAspectNavigationObject = screen => ({
     },
 });
 
-const returnScreenAspectNavigationObject = screen => ({
+const returnScreenAspectNavigationObject = (screen) => ({
     root: {
         stack: {
             id: 'App',
@@ -78,7 +78,7 @@ const returnScreenAspectNavigationObject = screen => ({
     },
 });
 
-const returnNavigationObject = screen => ({
+const returnNavigationObject = (screen, props = {}) => ({
     root: {
         stack: {
             id: 'App',
@@ -86,6 +86,7 @@ const returnNavigationObject = screen => ({
                 {
                     component: {
                         name: screen,
+                        passProps: props,
                         options: {
                             topBar: {
                                 visible: false,

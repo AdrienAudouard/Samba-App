@@ -1,13 +1,13 @@
 import React from 'react';
 import SellScreen from './SellScreen';
-import {BottomNavigation, Text} from 'react-native-paper';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {BottomNavigation} from 'react-native-paper';
 import LoginScreen from './LoginScreen';
 
 class HomeScreen extends React.Component {
     state = {
         index: 0,
         routes: [
+            { key: 'home', title: 'Home', icon: 'home'  },
             { key: 'sell', title: 'Sell', icon: 'star' },
             { key: 'profile', title: 'Profile', icon: 'account-group'  },
         ],
@@ -18,12 +18,13 @@ class HomeScreen extends React.Component {
     _renderScene = BottomNavigation.SceneMap({
         sell: SellScreen,
         profile: LoginScreen,
+        home: LoginScreen
     });
 
     render() {
         return (
             <BottomNavigation
-                shifting
+
                 navigationState={this.state}
                 barStyle={{ backgroundColor: '#EDEDEA' }}
                 onIndexChange={this._handleIndexChange}

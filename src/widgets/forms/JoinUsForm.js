@@ -1,11 +1,13 @@
 import React from 'react';
 import {Button, Text} from 'react-native-elements';
 import {Keyboard, SafeAreaView, StyleSheet, TextInput, TouchableWithoutFeedback, View} from 'react-native';
-import RoundTextInput from '../widgets/RoundTextInput';
-import UserProvider from '../providers/UserProvider';
-import AlertProvider from '../providers/AlertProvider';
+import RoundTextInput from '../../widgets/RoundTextInput';
+import UserProvider from '../../providers/UserProvider';
+import AlertProvider from '../../providers/AlertProvider';
+import PropTypes from 'prop-types';
+import LoginForm from './LoginForm';
 
-class JoinUsScreen extends React.Component {
+class JoinUsForm extends React.Component {
     constructor(props) {
         super(props);
 
@@ -29,11 +31,13 @@ class JoinUsScreen extends React.Component {
 
     signUp() {
         const {email, password, firstName, lastName, pseudo} = this.state;
+        const { onLogin } = this.props;
+
         this.onChange('isLoading', true);
 
         this.userProvider.signUp(email, password, firstName, lastName, pseudo)
             .then((response) => {
-                AlertProvider.error('Success');
+                onLogin();
             })
             .catch((error) => {
                 AlertProvider.error('Error when joining us');
@@ -116,6 +120,10 @@ class JoinUsScreen extends React.Component {
     }
 }
 
+JoinUsForm.propTypes = {
+    onLogin: PropTypes.func.isRequired
+};
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#EDEDEA',
@@ -166,4 +174,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default JoinUsScreen;
+export default JoinUsForm;

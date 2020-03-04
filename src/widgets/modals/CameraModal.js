@@ -76,7 +76,7 @@ class CameraModal extends React.Component {
         if (this.camera) {
             const options = { quality: 1, base64: true };
             const data = await this.camera.takePictureAsync(options);
-            console.log(data.uri);
+
             this.setState({
                 showCamera: false,
                 pictureUri: data.uri

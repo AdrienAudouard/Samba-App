@@ -53,7 +53,7 @@ class FinalTestScreen extends React.Component {
                     <Button
                         buttonStyle={styles.yesButtons}
                         title="Let's go !"
-                        onPress={() => goCreateSell()}
+                        onPress={() => goCreateSell(600)}
                     />
                     <Button
                         buttonStyle={styles.noButton}

@@ -40,17 +40,34 @@ class DeviceProvider {
         return this.bytesToSize(DeviceInfo.getTotalDiskCapacitySync() + DeviceInfo.getTotalMemorySync());
     }
 
+    getDeviceInfo() {
+        return {
+            brand: this.getBrand(),
+            model: this.getModel(),
+            os: this.getOsName(),
+            osVersion: this.getOsVersion(),
+            storage: this.getCapacity()
+        }
+    }
+
     bytesToSize(bytes) {
         const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
         if (bytes === 0) return '0 Byte';
         const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        console.log(bytes / Math.pow(1024, i));
         return Math.ceil(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     }
 
+    getOsName() {
+        return DeviceInfo.getSystemName();
+    }
+
+    getOsVersion() {
+        return DeviceInfo.getSystemVersion();
+    }
+
     getOs() {
-        const osName = DeviceInfo.getSystemName();
-        const os = DeviceInfo.getSystemVersion();
+        const osName = this.getOsName();
+        const os = this.getOsVersion();
 
         return `${osName} ${os}`;
     }

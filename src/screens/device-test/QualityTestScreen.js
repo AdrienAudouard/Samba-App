@@ -10,8 +10,6 @@ class QualityTestScreen extends React.Component {
     }
 
     render() {
-        console.log(this.props);
-
         const { title, image, buttons } = this.props;
         return (
             <SafeAreaView style={styles.container}>

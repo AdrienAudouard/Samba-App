@@ -25,6 +25,16 @@ class DeviceTesterProvider {
         });
     }
 
+    getResultData() {
+        const result = {};
+
+        Object.keys(this.deviceState).forEach((key) => {
+            result[key] = this.deviceState[key].result;
+        });
+
+        return result;
+    }
+
     getTestCount() {
         let count = 0;
         Object.keys(this.deviceState).forEach((key) => {
@@ -87,7 +97,6 @@ class DeviceTesterProvider {
         return results;
 
     }
-
 
     goToNextScreen(result) {
         const nextNavigation = this.navigationList[this.actual];

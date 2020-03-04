@@ -3,37 +3,60 @@ import {ActivityIndicator, Image, StyleSheet, TextInput, View} from 'react-nativ
 import {Button, Header, Text} from 'react-native-elements';
 import DeviceProvider from '../providers/DeviceProvider';
 import DeviceTesterProvider from '../providers/DeviceTesterProvider';
+import ConnectedScreen from './ConnectedScreen';
+import PropTypes from 'prop-types';
+import SellProvider from '../providers/SellProvider';
+import AlertProvider from '../providers/AlertProvider';
+import {goHome} from '../navigation/Navigation';
 
-class CreateSellScreen extends React.Component {
+class CreateSellScreen extends ConnectedScreen {
     constructor() {
         super();
 
         this.state = {
-            imageUri: ''
+            imageUri: '',
+            description: '',
+            price: 0,
         }
     }
 
     componentDidMount(): void {
         DeviceProvider.getDeviceImage().then((url) => {
-            console.log(url);
             this.setState({
                 imageUri: url
             });
         });
+
+        this.setState({
+           price: this.props.price === undefined ? 600 : this.props.price
+        });
+    }
+
+    createSell() {
+        const { price, description } = this.state;
+        const result = DeviceTesterProvider.getResultData();
+        const deviceInfos = DeviceProvider.getDeviceInfo();
+        const provider = new SellProvider();
+
+        provider.createSell(deviceInfos, result, price, description).then((e) => {
+            AlertProvider.success('Well done, your device is now on sale 😉', () => {goHome()})
+        }).catch((e) => {
+            AlertProvider.error('An error occured');
+        });
     }
 
     render() {
-        const { imageUri } = this.state;
+        const { imageUri, price, description } = this.state;
 
         const brand = DeviceProvider.getBrand();
         const model = DeviceProvider.getModel();
-        const os = DeviceProvider.getOs();
         const capacity = DeviceProvider.getCapacity();
         const testCount = DeviceTesterProvider.getTestCount();
         const testsPassed = DeviceTesterProvider.getNumberOfTestsPassed();
 
         return (
             <View style={{flex: 1}}>
+                { super.render() }
                 <Header
                     centerComponent={{ text: 'Sell your device', style: { color: '#fff' } }}
                 />
@@ -69,6 +92,8 @@ class CreateSellScreen extends React.Component {
                             <TextInput
                                 multiline
                                 placeholder={"ex: iPhone 11 Pro Max"}
+                                value={description}
+                                onChangeText={(description) => this.setState({description})}
                                 numberOfLines={6}
                                 style={{fontSize: 16}}
                             >
@@ -80,6 +105,8 @@ class CreateSellScreen extends React.Component {
                                 placeholder={"600 €"}
                                 keyboardType={"numeric"}
                                 style={{fontSize: 16}}
+                                value={price.toString()}
+                                onChangeText={(newText) => this.setState({ price: newText })}
                             >
                             </TextInput>
                         </View>
@@ -89,6 +116,7 @@ class CreateSellScreen extends React.Component {
                     <Button
                         title="Create"
                         buttonStyle={{height: 70, paddingBottom: 20}}
+                        onPress={() => this.createSell()}
                     >
 
                     </Button>
@@ -97,6 +125,14 @@ class CreateSellScreen extends React.Component {
         )
     }
 }
+
+CreateSellScreen.propTypes = {
+    price: PropTypes.number.isRequired
+};
+
+CreateSellScreen.defaultProps = {
+    price: 600
+};
 
 const styles = StyleSheet.create({
     container: {

@@ -1,23 +1,27 @@
-import axios from 'axios';
 import ENV from '../utils/env';
+import AuthProvider from './AuthProvider';
+import HttpClient from './HttpClient';
 
 export default class UserProvider {
     signUp(mail, password, firstName, lastName, pseudo) {
-        return axios.post(`${ENV.API_PATH}${ENV.SIGN_UP}`, {
+        return HttpClient.post(`${ENV.SIGN_UP}`, {
             username: `${firstName} ${lastName}`,
             password,
-            mail
-        });
+            mail,
+            firstName,
+            lastName
+        }).then(this.login(mail, password));
     }
 
     login(mail, password) {
         return new Promise(((resolve, reject) => {
-            axios.post(`${ENV.API_PATH}${ENV.LOGIN}`, {
+            HttpClient.post(`${ENV.LOGIN}`, {
                 username: mail,
                 password,
             }).then((response) => {
-                console.log(response.headers["authorization"]);
-                resolve();
+                AuthProvider.setToken(response.headers["authorization"]).then(() => {
+                    resolve();
+                });
             }).catch(e => {
                 reject(e);
             })

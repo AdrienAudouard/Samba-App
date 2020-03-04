@@ -51,7 +51,7 @@ const FEATURES_LIST = [
         label: 'Bluetooth'
     },
     { screen: goCameraTest,
-        name: 'camera',
+        name: 'cameraSpecifications',
         default: {front: false, back: false},
         expected: {front: true, back: true},
         labels: {front: 'Front camera', back: 'Back camera'}
@@ -69,7 +69,7 @@ const FEATURES_LIST = [
         label: 'GPS'
     },
     { screen: goButtonTest,
-        name: 'button',
+        name: 'buttonsSpecifications',
         default: { volumeUp: false, volumeDown: false, volumeSwitch: false, power: false},
         expected: { volumeUp: true, volumeDown: true, volumeSwitch: true, power: true},
         labels: { volumeUp: 'Volume up button', volumeDown: 'Volume down button', volumeSwitch: 'Silent switch', power: 'Power button' }

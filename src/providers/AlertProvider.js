@@ -12,4 +12,15 @@ export default class AlertProvider {
             {cancelable: false},
         );
     }
+
+    static success(msg, callback = () => {}) {
+        Alert.alert(
+            'Success',
+            msg,
+            [
+                {text: 'OK', onPress: callback},
+            ],
+            {cancelable: false},
+        );
+    }
 }
